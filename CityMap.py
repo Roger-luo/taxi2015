@@ -22,8 +22,9 @@ class CityMap(object):
         Null
         """
         self.graph = nx.DiGraph()
+        self.coordinate = {}
 
-    def add_node(self, node_list):
+    def add_node(self, node_id, coordinate):
         """
         Parameters
         ----------
@@ -36,10 +37,10 @@ class CityMap(object):
         -------
         Null
         """
-        for node in node_list:
-            self.graph.add_node(node)
+        self.graph.add_node(node)
+        self.coordinate[node_id] = coordinate
 
-    def add_arc(self, arc_tuple_list):
+    def add_arc(self, arc_tuple):
         """
         Parameters
         ----------
@@ -50,7 +51,10 @@ class CityMap(object):
         -------
         Null
         """
-        self.graph.add_weighted_edges_from(arc_tuple_list)
+        node_i = self.coordinate[arc_tuple[0]]
+        node_j = self.coordinate[arc_tuple[1]]
+        norm = np.sqrt(np.dot(node_i-node_j, node_i-node_j))
+        self.graph.add_edge(arc_tuple[0],arc_tuple[1],length=norm)
 
     def arc_length(self, arc_tuple):
         """
@@ -66,7 +70,7 @@ class CityMap(object):
         ans : float
             arc length of a given arc
         """
-        ans = self.graph.edge[arc_tuple[0]][arc_tuple[1]]["weight"]
+        ans = self.graph.edge[arc_tuple[0]][arc_tuple[1]]["length"]
         return ans
 
     def neighbor_nodes(self, node_id):
@@ -83,7 +87,8 @@ class CityMap(object):
         neighbor_nodes : list
             node id list of neighbor nodes
         """
-        pass
+        neighbor_nodes = [node for node in self.graph.to_undirected().edge[node_id]]
+        return neighbor_nodes
 
     def random_choose(self,node_id)
         tmp = neighbor_nodes(node_id)
@@ -104,7 +109,8 @@ class CityMap(object):
         coordinate : numpy.array
             the [x,y] coordinate of the node
         """
-        pass
+        coordinate = self.coordinate[node_id]
+        return coordinate
 
     def position_coordinate(self, position):
         """
@@ -120,7 +126,12 @@ class CityMap(object):
         coordinate : numpy.array
             the [x,y] coordinate of the position
         """
-        pass
+        begin_node = self.coordinate[position.arc[0]]
+        end_node = self.coordinate[position.arc[1]]
+        road_vector = end_node - begin_node
+        relative_vector = road_vector * position.location
+        position_vector = relative_vector + begin_node
+        return position_vector
 
     def min_distance(self, position1, position2):
         """
@@ -142,12 +153,12 @@ class CityMap(object):
         if position1.arc == position2.arc:
             min_distance = abs(position1.location-position2.location)*\
                            self.graph.edge\
-                           [position1.arc[0]][position1.arc[1]]["weight"]
+                           [position1.arc[0]][position1.arc[1]]["length"]
         else:
             modified_graph = self.graph.copy
             begin1 = position1.arc[0]
             end1 = position1.arc[1]
-            length1 = modified_graph.edge[begin1][end1]["weight"]
+            length1 = modified_graph.edge[begin1][end1]["length"]
             modified_graph.remove_edge(begin1, end1)
             modified_graph.add_node("temp1")
             modified_graph.add_weighted_edges_from\
@@ -156,7 +167,7 @@ class CityMap(object):
                 ([("temp1", end1, length1*(1-position1.location))])
             begin2 = position2.arc[0]
             end2 = position2.arc[1]
-            length2 = modified_graph.edge[begin2][end2]["weight"]
+            length2 = modified_graph.edge[begin2][end2]["length"]
             modified_graph.remove_edge(begin2, end2)
             modified_graph.add_node("temp2")
             modified_graph.add_weighted_edges_from\
@@ -165,5 +176,5 @@ class CityMap(object):
                 ([("temp2", end2, length2*(1-position2.location))])
             min_distance = nx.shortest_path_length\
                            (modified_graph.to_undirected, \
-                            "temp1", "temp2", weight="weight")
+                            "temp1", "temp2", weight="length")
         return min_distance
