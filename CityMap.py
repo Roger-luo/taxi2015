@@ -88,6 +88,7 @@ class CityMap(object):
             node id list of neighbor nodes
         """
         neighbor_nodes = [node for node in self.graph.to_undirected().edge[node_id]]
+        return neighbor_nodes
 
     def coordinate(self, node_id):
         """
