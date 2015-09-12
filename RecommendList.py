@@ -46,9 +46,9 @@ class RecommendList(object):
 		"""
 		if mode == None:
 			for i in self.passenger_list:
-				if (i.position.arc==self.taxi.position.arc)&&(abs(i.position.location - self.taxi.position.location)<0.5)
+				if (i.position.arc==self.taxi.position.arc)and(abs(i.position.location - self.taxi.position.location)<0.5):
 					return [i.ID]
-				else
+				else:
 					return []
 		elif mode == ME:
 			return []

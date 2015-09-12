@@ -2,6 +2,7 @@ __author__="Lingyuan Ji"
 
 import networkx as nx
 import Position as ps
+import numpy as np
 
 
 class CityMap(object):
@@ -83,6 +84,11 @@ class CityMap(object):
             node id list of neighbor nodes
         """
         pass
+
+    def random_choose(self,node_id)
+        tmp = neighbor_nodes(node_id)
+        dice = np.random.randint(len(tmp),size = 1)
+        return tmp[dice]
 
     def coordinate(self, node_id):
         """
