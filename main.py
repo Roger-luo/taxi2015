@@ -6,56 +6,56 @@ from Constants import Constants
 #basic storage class
 
 class Position(object):
-	def __init__(self, arc_, location_):
-		self.arc = arc_
-		self.location = location_
+    def __init__(self, arc_, location_):
+	self.arc = arc_
+        self.location = location_
 
 class Passenger(object):
-	def __init__(self, position_, distance_, tips_, wait_time_ = 0):
-		self.position = position_ 
-		self.distance = distance_ 
-		self.tips = tips_ 
-		self.wait_time = wait_time_ 
+    def __init__(self, position_, distance_, tips_, wait_time_ = 0):
+	    self.position = position_ 
+	    self.distance = distance_ 
+	    self.tips = tips_ 
+	    self.wait_time = wait_time_ 
 
 class Taxi(object):
-	def __init__(self, position_,velocity_):
-		self.position 	= position_
-		self.velocity 	= velocity_
+    def __init__(self, position_,velocity_):
+        self.position 	= position_
+	self.velocity 	= velocity_
 
 #data
 class PassengerList(object):
-	def __init__(self):
-		self.Plist = []
+    def __init__(self):
+        self.Plist = []
 
-	def generate(self,len,citymap):
-		"""
-		Parameter
-		--------------
-		rd_id:		list[float...]
-			random ID List
-		rd_id_tuple_list:	list[tuple...]
-			random tuple List
-		rd_distance:	list[float...]
-			random distance List
-		rd_tips_list:	list[float...]
-			random tips List
-		rd_location:	list[float...]
-			random location List
-		rd_pos:		list[Position...]
-			random position List
+    def generate(self, length, citymap):
+        """
+        Parameter
+	--------------
+	rd_id:		list[float...]
+	random ID List
+	rd_id_tuple_list:	list[tuple...]
+	random tuple List
+	rd_distance:	list[float...]
+	random distance List
+	rd_tips_list:	list[float...]
+	random tips List
+	rd_location:	list[float...]
+	random location List
+	rd_pos:		list[Position...]
+	random position List
 
-		Returns
-		----------
-		gen:None
-			generate a PassengerList with length(Passenger number) len
-		"""
-		rd_id		= np.random.randint(point_num,size = len)
-		rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(len)]
-		rd_location	= np.random.random(len)#model undecided 
-		rd_distance	= np.random.randn(len)#model undecided
-		rd_tips_list 	= np.random.randn(len)#model undecided
-		rd_pos  	= [Position(rd_id_tuple_list[i],rd_location[i]) for i in range(len)]
-		self.Plist 	= [Passenger(rd_pos[i],rd_distance[i],rd_tips_list[i]) for i in range(len)]
+	Returns
+	----------
+	gen:None
+	generate a PassengerList with length(Passenger number) len
+	"""
+	rd_id		= np.random.randint(point_num,size = length)
+	rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(length)]
+	rd_location	= np.random.random(length)#model undecided 
+	rd_distance	= np.random.randn(length)#model undecided
+	rd_tips_list 	= np.random.randn(length)#model undecided
+	rd_pos  	= [Position(rd_id_tuple_list[i],rd_location[i]) for i in range(length)]
+	self.Plist 	= [Passenger(rd_pos[i],rd_distance[i],rd_tips_list[i]) for i in range(length)]
 
 class TaxiList(object):
 	"""docstring for TaxiList"""
@@ -63,9 +63,9 @@ class TaxiList(object):
 		self.Tlist = []
 
 	def generate(self,taxi_num,citymap):
-		rd_id		= np.random.randint(point_num,size = len)
-		rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(len)] 
-		rd_location	= np.random.random(len)#model undecided
+		rd_id		= np.random.randint(point_num,size = length)
+		rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(length)] 
+		rd_location	= np.random.random(length)#model undecided
 		self.Tlist = [Taxi(rd_id_tuple_list[i] , rd_location[i]) for i in range(taxi_num)]
 
 class Information(object):
@@ -156,6 +156,7 @@ class PassengerTaxi(Information):
 Roma = CityMap()
 plist = PassengerList()
 tlist = TaxiList()
+point_num = len(Roma.coordinate)
 
 plist.generate(10,Roma)
 tlist.generate(10,Roma)
@@ -165,9 +166,9 @@ WALL_TIME = 10
 while inner_time<WALL_TIME:
 	taxi_add_num = Roma_people.pool_count()
 	for i in range(taxi_add_num):
-		rd_id		= np.random.randint(point_num,size = len)
-		rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(len)] 
-		rd_location	= np.random.random(len)#model undecided
+		rd_id		= np.random.randint(point_num,size = length)
+		rd_id_tuple_list 	= [(rd_id[i],citymap.random_choose(rd_id[i])) for i in range(length)] 
+		rd_location	= np.random.random(length)#model undecided
 		tmp = Taxi(rd_id_tuple_list[i] , rd_location[i])
 		Roma_people.taxi_list.append(tmp)
 	pass
