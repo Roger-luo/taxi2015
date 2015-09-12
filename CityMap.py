@@ -91,7 +91,7 @@ class CityMap(object):
         return neighbor_nodes
 
     def random_choose(self,node_id)
-        tmp = neighbor_nodes(node_id)
+        tmp = self.neighbor_nodes(node_id)
         dice = np.random.randint(len(tmp),size = 1)
         return tmp[dice]
 
