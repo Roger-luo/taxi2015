@@ -25,7 +25,7 @@ class RecommendList(object):
 		if mode == None return  a random walk direction
 		"""
 		if mode == None:
-			ID_list = _CityMap.neighbor_nodes(taxi.position.arc[1])
+			ID_list = self.city_map.neighbor_nodes(taxi.position.arc[1])
 			dice = random.randint(0,len(ID_list)-1)
 			return ID_list[dice]
 

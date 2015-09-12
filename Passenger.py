@@ -45,6 +45,6 @@ class PassengerList(object)
 		rd_pos  	= [Position(rd_id_tuple_list[i],rd_location[i]) for i in range(len)]
 		self.list 	= [Passenger(rd_pos[i],rd_distance[i],rd_tips_list[i]) for i in range(len)]
 
-	#def run(self):
-	
+	def run(self):
+		
 		
