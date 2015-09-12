@@ -1,4 +1,6 @@
 import numpy as np
+from Position import Position
+from Passenger import Passenger
 
 class PassengerList(object):
     def __init__(self):

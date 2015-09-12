@@ -1,4 +1,5 @@
 from Taxi import Taxi
+import numpy as np
 
 class TaxiList(object):
     """docstring for TaxiList"""

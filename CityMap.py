@@ -37,10 +37,10 @@ class CityMap(object):
         -------
         Null
         """
-        self.graph.add_node(node)
+        self.graph.add_node(node_id)
         self.coordinate[node_id] = coordinate
 
-    def add_arc(self, arc_tuple):
+    def add_arc(self, i, j):
         """
         Parameters
         ----------
@@ -51,10 +51,10 @@ class CityMap(object):
         -------
         Null
         """
-        node_i = self.coordinate[arc_tuple[0]]
-        node_j = self.coordinate[arc_tuple[1]]
+        node_i = self.coordinate[i]
+        node_j = self.coordinate[j]
         norm = np.sqrt(np.dot(node_i-node_j, node_i-node_j))
-        self.graph.add_edge(arc_tuple[0], arc_tuple[1], length=norm)
+        self.graph.add_edge(i, j, length=norm)
 
     def arc_length(self, arc_tuple):
         """
