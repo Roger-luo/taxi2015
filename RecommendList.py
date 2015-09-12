@@ -1,7 +1,10 @@
 import random
 
 class RecommendList(object):
-	"""RecommendList"""
+	"""
+	class RecommendList is a class to store strategies
+	and contains functions to guid a taxi
+	"""
 	def __init__(self, _CityMap, _passenger_list, _taxi, _mode = None):
 		self.city_map 		= _CityMap
 		self.passenger_list 	= _passenger_list
@@ -10,7 +13,9 @@ class RecommendList(object):
 		
 	def choose(self):
 		"""
-		Choose a direction
+		Choose can use defferent methods to guide a taxi
+		to high population density blocks
+
 		Parameters
 		---------------
 		self
@@ -26,6 +31,9 @@ class RecommendList(object):
 
 	def decisionTree(self):
 		"""
+		decision tree use different methods to contact 
+		a passenger & a taxi
+
 		Parameters
 		---------------
 		passenger_list:	List[Passenger,[Passenger..]]
@@ -37,7 +45,10 @@ class RecommendList(object):
 		List[passenger]
 		"""
 		if mode == None:
-			self.passenger_list
-			return
+			for i in self.passenger_list:
+				if (i.position.arc==self.taxi.position.arc)&&(abs(i.position.location - self.taxi.position.location)<0.5)
+					return [i.ID]
+				else
+					return []
 		elif mode == ME:
-			return
+			return []
