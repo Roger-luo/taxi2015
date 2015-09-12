@@ -1,3 +1,5 @@
+__author__="Lingyuan Ji"
+
 import networkx as nx
 import Position as ps
 
