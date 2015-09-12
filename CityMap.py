@@ -1,4 +1,4 @@
-__author__="Lingyuan Ji"
+__author__ = "Lingyuan Ji"
 
 import networkx as nx
 import Position as ps
@@ -54,7 +54,7 @@ class CityMap(object):
         node_i = self.coordinate[arc_tuple[0]]
         node_j = self.coordinate[arc_tuple[1]]
         norm = np.sqrt(np.dot(node_i-node_j, node_i-node_j))
-        self.graph.add_edge(arc_tuple[0],arc_tuple[1],length=norm)
+        self.graph.add_edge(arc_tuple[0], arc_tuple[1], length=norm)
 
     def arc_length(self, arc_tuple):
         """
@@ -90,9 +90,9 @@ class CityMap(object):
         neighbor_nodes = [node for node in self.graph.to_undirected().edge[node_id]]
         return neighbor_nodes
 
-    def random_choose(self,node_id)
+    def random_choose(self, node_id):
         tmp = self.neighbor_nodes(node_id)
-        dice = np.random.randint(len(tmp),size = 1)
+        dice = np.random.randint(len(tmp), size = 1)
         return tmp[dice]
 
     def coordinate(self, node_id):
