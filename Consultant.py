@@ -1,5 +1,6 @@
 from Position import Position
 from Passenger import Passenger
+from Constants import Constants
 class Consultant(object):
     def __init__(self, mode_=None):
         self.data_base = []
@@ -20,6 +21,8 @@ class Consultant(object):
                    (abs(i.position.location - taxi.position.location) < 0.5):
                     return [i]
             return []#can not find any potential passenger nearby;go on
+        if self.mode == Constants['ME']:
+            return []
 
     def guide(self, info):
         for iTaxi in info.taxi_list.Tlist:

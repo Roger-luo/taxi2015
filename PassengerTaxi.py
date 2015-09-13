@@ -1,6 +1,7 @@
 from Information import Information
 from Constants import Constants
 import random
+import numpy as np
 
 class PassengerTaxi(Information):
     def __init__(self, citymap, passenger_list_, taxi_list_):
@@ -15,11 +16,37 @@ class PassengerTaxi(Information):
                             (taxi.position, passenger.position)/taxi.velocity + run_time
         self.pool.append(back_time)
 
+    def potential(self, coordinate):
+        sum_p = 0
+        for i in self.passenger_list.Plist:
+            radius = np.sqrt(np.dot(self.city_map.position_coordinate(i.position)-coordinate,self.city_map.position_coordinate(i.position)-coordinate))
+            if radius != 0.0:
+                sum_p+=np.exp(1/(radius*radius))-1
+            else:
+                sum_p+=-1
+        return sum_p
+
     def navigator(self, taxi):
         if self.mode == None:
             ID_list = self.city_map.neighbor_nodes(taxi.position.arc[1])
             dice = random.randint(0, len(ID_list)-1)
             return ID_list[dice]
+        if self.mode == Constants['ME']:
+            ID_list = self.city_map.neighbor_nodes(taxi.position.arc[1])
+            sum_p = 0
+            for i in ID_list:
+                sum_p +=self.potential(self.city_map.coordinate(i))
+            Possibility = [self.potential(self.city_map.coordinate(i))/sum_p for i in ID_list]
+            dice = np.random.random()
+            if (dice<Possibility[0]):
+                    return ID_list[0]
+            else:
+                for i in range(1,len(ID_list)):
+                    if (Possibility[i-1]<dice)and(dice<Possibility[i]):
+                        return ID_list[i]
+
+            
+
 
     def next_timestep(self, candidates, dt=Constants['dt']):
         """
@@ -71,3 +98,6 @@ class PassengerTaxi(Information):
         count = len(filter(lambda x: x<=0, self.pool))
         self.pool=filter(lambda x: x>0, self.pool)
         return count
+
+    def add_passenger(self, moment):
+        return np.random.poisson(moment)
