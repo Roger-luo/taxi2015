@@ -235,5 +235,5 @@ class CityMap(object):
         taxis_x=[taxi[0] for taxi in taxi_coordinate]
         taxis_y=[taxi[1] for taxi in taxi_coordinate]
         ax.plot(taxis_x, taxis_y, "go", markersize=10.0, alpha=0.75)
-        plt.savefig("/Users/LingyuanJi/Desktop/temp/"+str(time)+".jpg")
+        plt.show()
         plt.close()
