@@ -35,11 +35,5 @@ class PassengerList(object):
 		rd_location = np.random.random()
 		rd_distance = np.random.randn()
 		rd_tips_list = np.random.randn()
-		if citymap.direction(rd_id_tuple):
-			rd_pos = Position(rd_id_tuple,rd_location)
-			velocity = Constants["velocity"]
-		else:
-			rd_id_tuple = (rd_id_tuple[1],rd_id_tuple[0])
-			rd_pos = Position(rd_id_tuple,rd_location)
-			velocity = -Constants["velocity"]
+		rd_pos = Position(rd_id_tuple,rd_location)
 		self.Plist.append(Passenger(rd_pos,rd_distance,rd_tips_list))

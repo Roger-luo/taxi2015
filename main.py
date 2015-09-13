@@ -43,7 +43,7 @@ POINT_NUM = len(ROMA.coordinate)
 
 
 PLIST.generate(10, ROMA)
-TLIST.generate(10, ROMA)
+TLIST.generate(30, ROMA)
 ROMA_PEOPLE = PassengerTaxi(ROMA, PLIST, TLIST)
 INNER_TIME = 0
 WALL_TIME = 10
@@ -61,5 +61,6 @@ while INNER_TIME < WALL_TIME:
     AI.guide(PAPERS)
     ROMA_PEOPLE.next_timestep(AI.data_base)
     INNER_TIME += Constants['dt']
+
 
 ROMA.plot_now(ROMA_PEOPLE.passenger_list.Plist, ROMA_PEOPLE.taxi_list.Tlist)

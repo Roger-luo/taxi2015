@@ -47,12 +47,18 @@ class PassengerTaxi(Information):
                 cur_location = cur_taxi.position.location
                 cur_speed = cur_taxi.velocity#velocity has to be unsigned
                 mileage = arc_len*cur_location+cur_speed*dt#mileage is an unsigned float
+                if mileage<0:
+                        print "help"
+                        print cur_location
+                        print cur_speed
                 if mileage<=arc_len:
                     cur_taxi.position.location = mileage/arc_len
                 elif mileage > arc_len:
-                    while mileage>self.city_map.arc_length(cur_taxi.position.arc):
+                    cur_len = self.city_map.arc_length(cur_taxi.position.arc)
+                    while mileage>cur_len:
+                        mileage -= cur_len
                         cur_taxi.position.arc = (cur_taxi.position.arc[1],self.navigator(cur_taxi))
-                        mileage -= self.city_map.arc_length(cur_taxi.position.arc)
+                        cur_len = self.city_map.arc_length(cur_taxi.position.arc)
                     arc_len=self.city_map.arc_length(cur_taxi.position.arc)
                     cur_taxi.position.location = mileage/arc_len
                 iTaxi+=1
@@ -62,5 +68,6 @@ class PassengerTaxi(Information):
         count = 0
         for i in range(len(self.pool)):
             self.pool[i] -= Constants['dt']
-        count = len(filter(lambda x: x>=0, self.pool))
+        count = len(filter(lambda x: x<=0, self.pool))
+        self.pool=filter(lambda x: x>0, self.pool)
         return count
