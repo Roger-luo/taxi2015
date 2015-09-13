@@ -48,17 +48,25 @@ ROMA_PEOPLE = PassengerTaxi(ROMA, PLIST, TLIST)
 INNER_TIME = 0
 WALL_TIME = 10
 while INNER_TIME < WALL_TIME:
-    print "runing"
+    print "pass1"
+    import pdb; pdb.set_trace()  # breakpoint 093ed5f0 //
     TAXI_ADD_NUM = ROMA_PEOPLE.pool_count()
+    print "pass6"
+    print "TAXI_ADD_NUM:%s"%(TAXI_ADD_NUMbre)
     for i in range(TAXI_ADD_NUM):
+        print "pass5"
         rd_id = numpy.random.randint(POINT_NUM)
         rd_id_tuple = (rd_id, ROMA_PEOPLE.city_map.random_choose(rd_id))
         rd_location = random.random()#model undecided
         tmp_position = Position(rd_id_tuple, rd_location)
         tmp_velocity = Constants["velocity"]
         ROMA_PEOPLE.taxi_list.Tlist.append(Taxi(tmp_position, tmp_velocity))
+    print "pass4"
     AI = Consultant()
     PAPERS = Information(ROMA_PEOPLE.city_map, ROMA_PEOPLE.passenger_list, ROMA_PEOPLE.taxi_list)
+    print "pass2"
     AI.guide(PAPERS)
+    print "pass3"
     ROMA_PEOPLE.next_timestep(AI.data_base)
     INNER_TIME += Constants['dt']
+    print "INNER_TIME:%s" %(INNER_TIME)
