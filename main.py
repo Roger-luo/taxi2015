@@ -42,11 +42,11 @@ TLIST = TaxiList()
 POINT_NUM = len(ROMA.coordinate)
 
 
-PLIST.generate(10, ROMA)
-TLIST.generate(30, ROMA)
+PLIST.generate(30, ROMA)
+TLIST.generate(10, ROMA)
 ROMA_PEOPLE = PassengerTaxi(ROMA, PLIST, TLIST)
 INNER_TIME = 0
-WALL_TIME = 10
+WALL_TIME = 30
 while INNER_TIME < WALL_TIME:
     TAXI_ADD_NUM = ROMA_PEOPLE.pool_count()
     for i in range(TAXI_ADD_NUM):
@@ -69,7 +69,5 @@ while INNER_TIME < WALL_TIME:
     PAPERS = Information(ROMA_PEOPLE.city_map, ROMA_PEOPLE.passenger_list, ROMA_PEOPLE.taxi_list)
     AI.guide(PAPERS)
     ROMA_PEOPLE.next_timestep(AI.data_base)
+    ROMA.plot_now(ROMA_PEOPLE.passenger_list.Plist, ROMA_PEOPLE.taxi_list.Tlist, INNER_TIME)
     INNER_TIME += Constants['dt']
-
-
-ROMA.plot_now(ROMA_PEOPLE.passenger_list.Plist, ROMA_PEOPLE.taxi_list.Tlist)
