@@ -1,3 +1,5 @@
+from Position import Position
+from Passenger import Passenger
 class Consultant(object):
     def __init__(self, mode_=None):
         self.data_base = []
@@ -21,5 +23,5 @@ class Consultant(object):
 
     def guide(self, info):
         for iTaxi in info.taxi_list.Tlist:
-            res = icandidate(self, iTaxi, info)
-            data_base.append(res)
+            res = self.icandidate(iTaxi, info)
+            self.data_base.append(res)
