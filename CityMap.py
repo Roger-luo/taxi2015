@@ -202,7 +202,7 @@ class CityMap(object):
             modified_graph.add_weighted_edges_from\
                 ([(begin2, "temp2", length2*location2)])
             modified_graph.add_weighted_edges_from\
-                ([("temp2", end2, length2*(1-location2)])
+                ([("temp2", end2, length2*(1-location2))])
             min_distance = nx.shortest_path_length\
                            (modified_graph.to_undirected(), \
                             "temp1", "temp2", weight="length")
