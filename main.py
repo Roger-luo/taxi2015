@@ -57,7 +57,7 @@ while INNER_TIME < WALL_TIME:
         tmp_velocity = Constants["velocity"]
         ROMA_PEOPLE.taxi_list.append(Taxi(tmp_position, tmp_velocity))
     AI = Consultant()
-    PAPERS = Information(ROMA_PEOPLE.map, ROMA_PEOPLE.passenger_list, ROMA_PEOPLE.taxi_list)
+    PAPERS = Information(ROMA_PEOPLE.city_map, ROMA_PEOPLE.passenger_list, ROMA_PEOPLE.taxi_list)
     AI.guide(PAPERS)
     ROMA_PEOPLE.next_timestep(AI.data_base)
     INNER_TIME += Constants['dt']

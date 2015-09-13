@@ -1,5 +1,6 @@
 from Information import Information
 from Constants import Constants
+import random
 
 class PassengerTaxi(Information):
     """docstring for PassengerTaxi"""
@@ -18,7 +19,7 @@ class PassengerTaxi(Information):
     def navigator(self, taxi):
         if self.mode == None:
             ID_list = self.city_map.neighbor_nodes(taxi.position.arc[1])
-            dic = random.randint(0, len(ID_list)-1)
+            dice = random.randint(0, len(ID_list)-1)
             return ID_list[dice]
 
     def next_timestep(self, candidates, dt=Constants['dt']):
@@ -31,7 +32,7 @@ class PassengerTaxi(Information):
                 if self.mode == None:
                     self.push(self.taxi_list.Tlist[iTaxi], candidates[iTaxi][0])
                     del self.taxi_list.Tlist[iTaxi]
-                    self.passenger_list.Plist.remove(candidates[iTaxi])
+                    self.passenger_list.Plist.remove(candidates[iTaxi][0])
                 arc_len = self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc)
                 taxi_location = self.taxi_list.Tlist[iTaxi].position.location
                 speed = self.taxi_list.Tlist[iTaxi].velocity
