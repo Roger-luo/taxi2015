@@ -70,7 +70,7 @@ class CityMap(object):
         ans : float
             arc length of a given arc
         """
-        ans = self.graph.edge[arc_tuple[0]][arc_tuple[1]]["length"]
+        ans = (self.graph.to_undirected()).edge[arc_tuple[0]][arc_tuple[1]]["length"]
         return ans
 
     def neighbor_nodes(self, node_id):
@@ -92,7 +92,7 @@ class CityMap(object):
 
     def random_choose(self, node_id):
         tmp = self.neighbor_nodes(node_id)
-        dice = np.random.randint(len(tmp), size = 1)
+        dice = np.random.randint(len(tmp))
         return tmp[dice]
 
     def coordinate(self, node_id):
@@ -152,12 +152,13 @@ class CityMap(object):
 
         if position1.arc == position2.arc:
             min_distance = abs(position1.location-position2.location)*\
-                           self.graph.edge\
+                           (self.graph.to_undirected()).edge\
                            [position1.arc[0]][position1.arc[1]]["length"]
         else:
-            modified_graph = self.graph.copy
+            modified_graph = self.graph.copy()
             begin1 = position1.arc[0]
             end1 = position1.arc[1]
+            print begin1, end1
             length1 = modified_graph.edge[begin1][end1]["length"]
             modified_graph.remove_edge(begin1, end1)
             modified_graph.add_node("temp1")
@@ -167,6 +168,7 @@ class CityMap(object):
                 ([("temp1", end1, length1*(1-position1.location))])
             begin2 = position2.arc[0]
             end2 = position2.arc[1]
+            print begin2, end2
             length2 = modified_graph.edge[begin2][end2]["length"]
             modified_graph.remove_edge(begin2, end2)
             modified_graph.add_node("temp2")
@@ -175,6 +177,6 @@ class CityMap(object):
             modified_graph.add_weighted_edges_from\
                 ([("temp2", end2, length2*(1-position2.location))])
             min_distance = nx.shortest_path_length\
-                           (modified_graph.to_undirected, \
+                           (modified_graph.to_undirected(), \
                             "temp1", "temp2", weight="length")
         return min_distance

@@ -50,12 +50,12 @@ WALL_TIME = 10
 while INNER_TIME < WALL_TIME:
     TAXI_ADD_NUM = ROMA_PEOPLE.pool_count()
     for i in range(TAXI_ADD_NUM):
-        rd_id = random.randint(POINT_NUM)
+        rd_id = numpy.random.randint(POINT_NUM)
         rd_id_tuple = (rd_id, ROMA_PEOPLE.city_map.random_choose(rd_id))
         rd_location = random.random()#model undecided
         tmp_position = Position(rd_id_tuple, rd_location)
         tmp_velocity = Constants["velocity"]
-        ROMA_PEOPLE.taxi_list.append(Taxi(tmp_position, tmp_velocity))
+        ROMA_PEOPLE.taxi_list.Tlist.append(Taxi(tmp_position, tmp_velocity))
     AI = Consultant()
     PAPERS = Information(ROMA_PEOPLE.city_map, ROMA_PEOPLE.passenger_list, ROMA_PEOPLE.taxi_list)
     AI.guide(PAPERS)
