@@ -11,7 +11,7 @@ class TaxiList(object):
     def generate(self,taxi_num,citymap):
     	for i in range(taxi_num):
         		rd_id = np.random.randint(len(citymap.coordinate))
-        		rd_id_tuple = (rd_id[i], citymap.random_choose(rd_id))
+        		rd_id_tuple = (rd_id, citymap.random_choose(rd_id))
         		rd_location = np.random.random()#model undecided
         		if citymap.direction(rd_id_tuple):
         			velocity = Constants["velocity"]
