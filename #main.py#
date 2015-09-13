@@ -69,9 +69,5 @@ while INNER_TIME < WALL_TIME:
     print "pass3"
     ROMA_PEOPLE.next_timestep(AI.data_base)
     INNER_TIME += Constants['dt']
-<<<<<<< HEAD
 
 ROMA.plot_now(ROMA_PEOPLE.passenger_list.Plist, ROMA_PEOPLE.taxi_list.Tlist)
-=======
-    print "INNER_TIME:%s" %(INNER_TIME)
->>>>>>> 79e03840336d53dcf94bc254bdb580e401d3ba04
