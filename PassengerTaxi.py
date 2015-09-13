@@ -29,12 +29,15 @@ class PassengerTaxi(Information):
         """
         List_end = len(self.taxi_list.Tlist)
         iTaxi = 0
-        while iTaxi != List_end:
+        while iTaxi < List_end:
             if len(candidates[iTaxi]) != 0:
                 if self.mode == None:
                     self.push(self.taxi_list.Tlist[iTaxi], candidates[iTaxi][0])
                     del self.taxi_list.Tlist[iTaxi]
+                    List_end=len(self.taxi_list.Tlist)
                     self.passenger_list.Plist.remove(candidates[iTaxi][0])
+                print "iTaxi:%s" %(iTaxi)
+                print "List len:%s"%(len(self.taxi_list.Tlist))
                 cur_taxi = self.taxi_list.Tlist[iTaxi]
                 cur_arc = cur_taxi.position.arc#the arc in taxi (i,j)means a taxi run from i to j
                 arc_len = self.city_map.arc_length(cur_taxi.position.arc)
@@ -44,21 +47,22 @@ class PassengerTaxi(Information):
                 if mileage<=arc_len:
                 	cur_taxi.position.location = mileage/arc_len
                 elif mileage > arc_len:
-                	while (mileage-self.city_map.arc_length(cur_taxi.position.arc))>0:
+                	while mileage>self.city_map.arc_length(cur_taxi.position.arc):
                 		cur_taxi.position.arc = (cur_taxi.position.arc[1],self.navigator(cur_taxi))
                 		mileage -= self.city_map.arc_length(cur_taxi.position.arc)
                 	arc_len=self.city_map.arc_length(cur_taxi.position.arc)
                 	cur_taxi.position.location = mileage/arc_len
             iTaxi+=1
-            List_end=len(self.taxi_list.Tlist)
 
     def pool_count(self):
         count = 0
         for i in range(len(self.pool)):
-            print "i: %s"%(i)
-            print "list length: %s"%(len(self.pool))
             self.pool[i] -= Constants['dt']
-            if self.pool[i] <= 0:
-                count += 1
-                del self.pool[i]
+        List_end = len(self.pool)
+        i = 0
+        while i<List_end:
+        	if self.pool[i] <= 0:
+                 count += 1
+                 del self.pool[i]
+                 List_end = len(self.pool)
         return count
