@@ -164,33 +164,45 @@ class CityMap(object):
         min_distance : float
             the minimal distance between the two object
         """
+        if self.direction(position1.arc) == True:
+            arc1 = position1.arc
+            location1 = position1.location
+        else:
+            arc1 = (position1.arc[1], position1.arc[0])
+            location1 = 1 - position1.location
 
-        if position1.arc == position2.arc:
-            min_distance = abs(position1.location-position2.location)*\
+        if self.direction(position2.arc) == True:
+            arc2 = position2.arc
+            location2 = position2.location
+        else:
+            arc2 = (position2.arc[1], position2.arc[0])
+            location2 = 1 - position2.location
+
+
+        if arc1 == arc2:
+            min_distance = abs(location1-location2)*\
                            (self.graph.to_undirected()).edge\
-                           [position1.arc[0]][position1.arc[1]]["length"]
+                           [arc1[0]][arc1[1]]["length"]
         else:
             modified_graph = self.graph.copy()
-            begin1 = position1.arc[0]
-            end1 = position1.arc[1]
-            print begin1, end1
+            begin1 = arc1[0]
+            end1 = arc1[1]
             length1 = modified_graph.edge[begin1][end1]["length"]
             modified_graph.remove_edge(begin1, end1)
             modified_graph.add_node("temp1")
             modified_graph.add_weighted_edges_from\
-                ([(begin1, "temp1", length1*position1.location)])
+                ([(begin1, "temp1", length1*location1)])
             modified_graph.add_weighted_edges_from\
-                ([("temp1", end1, length1*(1-position1.location))])
-            begin2 = position2.arc[0]
-            end2 = position2.arc[1]
-            print begin2, end2
+                ([("temp1", end1, length1*(1-location1))])
+            begin2 = arc2[0]
+            end2 = arc2[1]
             length2 = modified_graph.edge[begin2][end2]["length"]
             modified_graph.remove_edge(begin2, end2)
             modified_graph.add_node("temp2")
             modified_graph.add_weighted_edges_from\
-                ([(begin2, "temp2", length2*position2.location)])
+                ([(begin2, "temp2", length2*location2)])
             modified_graph.add_weighted_edges_from\
-                ([("temp2", end2, length2*(1-position2.location))])
+                ([("temp2", end2, length2*(1-location2)])
             min_distance = nx.shortest_path_length\
                            (modified_graph.to_undirected(), \
                             "temp1", "temp2", weight="length")
