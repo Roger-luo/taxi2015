@@ -1,0 +1,34 @@
+from Position import Position
+from Passenger import Passenger
+from Constants import Constants
+class Consultant(object):
+    def __init__(self, mode_=None):
+        self.data_base = []
+        self.mode = mode_
+
+    def icandidate(self, taxi, info):
+        """
+	icandidate provide the taxi a list of passenger candidates
+	and a score to evaluate that the taxi should go on or find
+	a passenger
+
+	if the taxi should go on return an empty list
+	else return the passenger candidates list
+	"""
+        if self.mode == None:
+            for i in info.passenger_list.Plist:#try to find a passenger nearby
+                if (i.position.arc[0] == taxi.position.arc[0]) and \
+                   (abs(i.position.location - taxi.position.location) < 0.5)\
+                   and(i.position.arc[1] == taxi.position.arc[1]):
+                    return [i]
+            return []#can not find any potential passenger nearby;go on
+        if self.mode == Constants['ME']:
+            city_map = info.city_map
+            passenger_list = info.passenger_list.Plist
+            for passenger in passenger_list:
+                min_distance = city_map.min_distance(passenger.location)
+
+    def guide(self, info):
+        for iTaxi in info.taxi_list.Tlist:
+            res = self.icandidate(iTaxi, info)
+            self.data_base.append(res)
