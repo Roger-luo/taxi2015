@@ -73,8 +73,8 @@ class PassengerTaxi(Information):
                     del candidates[iTaxi]
                     List_end=len(self.taxi_list.Tlist)
                 elif self.mode == Constants['ME']:
-                    self.push(self.taxi_list.Tlist[iTaxi], candidates[iTaxi][0])
                     dice = np.random.randint(0,len(candidates[iTaxi]))
+                    self.push(self.taxi_list.Tlist[iTaxi], candidates[iTaxi][dice])
                     cur_passenger = candidates[iTaxi][0]
                     candidates = [filter(lambda x:x!=cur_passenger,i) for i in candidates]
                     self.passenger_list.Plist = filter(lambda x:x!=cur_passenger,self.passenger_list.Plist)

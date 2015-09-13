@@ -33,7 +33,7 @@ class PassengerList(object):
 		rd_id = np.random.randint(len(citymap.coordinate))
 		rd_id_tuple = (rd_id,citymap.random_choose(rd_id))
 		rd_location = np.random.random()
-		rd_distance = np.random.randn()
+		rd_distance = abs(np.random.randn()) 
 		rd_tips_list = np.random.randn()
 		rd_pos = Position(rd_id_tuple,rd_location)
 		self.Plist.append(Passenger(rd_pos,rd_distance,rd_tips_list))
