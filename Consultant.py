@@ -17,8 +17,9 @@ class Consultant(object):
 	"""
         if self.mode == None:
             for i in info.passenger_list.Plist:#try to find a passenger nearby
-                if (i.position.arc == taxi.position.arc) and \
-                   (abs(i.position.location - taxi.position.location) < 0.5):
+                if (i.position.arc[0] == taxi.position.arc[0]) and \
+                   (abs(i.position.location - taxi.position.location) < 0.5)\
+                   and(i.position.arc[1] == taxi.position.arc[1]):
                     return [i]
             return []#can not find any potential passenger nearby;go on
         if self.mode == Constants['ME']:
