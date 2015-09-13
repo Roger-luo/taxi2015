@@ -89,7 +89,7 @@ class CityMap(object):
         neighbor_nodes : list
             node id list of neighbor nodes
         """
-        neighbor_nodes = [node for node in self.graph.to_undirected().edge[node_id]]
+        neighbor_nodes = [node for node in (self.graph.to_undirected()).edge[node_id]]
         return neighbor_nodes
 
     def direction(self, arc_tuple):
@@ -134,11 +134,18 @@ class CityMap(object):
         coordinate : numpy.array
             the [x,y] coordinate of the position
         """
-        begin_node = self.coordinate[position.arc[0]]
-        end_node = self.coordinate[position.arc[1]]
-        road_vector = end_node - begin_node
-        relative_vector = road_vector * position.location
-        position_vector = relative_vector + begin_node
+        if self.direction(position.arc) == True:
+            begin_node = self.coordinate[position.arc[0]]
+            end_node = self.coordinate[position.arc[1]]
+            road_vector = end_node - begin_node
+            relative_vector = road_vector * position.location
+            position_vector = relative_vector + begin_node
+        else:
+            begin_node = self.coordinate[position.arc[1]]
+            end_node = self.coordinate[position.arc[0]]
+            road_vector = end_node - begin_node
+            relative_vector = road_vector * (1 - position.location)
+            position_vector = relative_vector + begin_node
         return position_vector
 
     def min_distance(self, position1, position2):
