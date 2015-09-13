@@ -62,11 +62,5 @@ class PassengerTaxi(Information):
         count = 0
         for i in range(len(self.pool)):
             self.pool[i] -= Constants['dt']
-        List_end = len(self.pool)
-        i = 0
-        while i<List_end:
-            if self.pool[i] <= 0:
-                count += 1
-                del self.pool[i]
-                List_end = len(self.pool)
+        count = len(filter(lambda x: x>=0, self.pool))
         return count

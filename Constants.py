@@ -1,8 +1,8 @@
 Constants = {
-    'dt': 1.0,
+    'dt': 0.1,
     'distance': 10,
     'tips': 10,
-    'velocity': 10,
+    'velocity': 1,
     'ME':'Our Strategy'
 }
 
