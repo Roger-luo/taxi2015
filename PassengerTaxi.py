@@ -4,9 +4,9 @@ import random
 import numpy as np
 
 class PassengerTaxi(Information):
-    def __init__(self, citymap, passenger_list_, taxi_list_):
+    def __init__(self, citymap, passenger_list_, taxi_list_,mode_=None):
         self.pool = []
-        self.mode = None
+        self.mode = mode_
         Information.__init__(self, citymap, passenger_list_, taxi_list_)
 
     def push(self, taxi, passenger):
@@ -21,7 +21,10 @@ class PassengerTaxi(Information):
         for i in self.passenger_list.Plist:
             radius = np.sqrt(np.dot(self.city_map.position_coordinate(i.position)-coordinate,self.city_map.position_coordinate(i.position)-coordinate))
             if radius != 0.0:
-                sum_p+=np.exp(1/(radius*radius))-1
+                if np.exp(1/(radius*radius)) <1e10:
+                    sum_p+=np.exp(1/(radius*radius))-1
+                else:
+                    sum_p +=1e10
             else:
                 sum_p+=-1
         return sum_p
@@ -33,20 +36,24 @@ class PassengerTaxi(Information):
             return ID_list[dice]
         if self.mode == Constants['ME']:
             ID_list = self.city_map.neighbor_nodes(taxi.position.arc[1])
-            sum_p = 0
-            for i in ID_list:
-                sum_p +=self.potential(self.city_map.coordinate(i))
-            Possibility = [self.potential(self.city_map.coordinate(i))/sum_p for i in ID_list]
-            dice = np.random.random()
-            if (dice<Possibility[0]):
-                    return ID_list[0]
+            if len(ID_list)==1:
+                return ID_list[0]
             else:
-                for i in range(1,len(ID_list)):
-                    if (Possibility[i-1]<dice)and(dice<Possibility[i]):
-                        return ID_list[i]
-
-            
-
+                sum_p = 0
+                for i in ID_list:
+                    tmp = self.potential(self.city_map.coordinate[i])
+                    if tmp < 1e8:
+                        sum_p +=self.potential(self.city_map.coordinate[i])
+                    else:
+                        sum_p +=1e8
+                Possibility = [self.potential(self.city_map.coordinate[i])/sum_p for i in ID_list]
+                dice = np.random.random()
+                if (dice<Possibility[0]):
+                    return ID_list[0]
+                else:
+                    for i in range(1,len(ID_list)):
+                        if (Possibility[i-1]<dice)and(dice<Possibility[i]):
+                            return ID_list[i]
 
     def next_timestep(self, candidates, dt=Constants['dt']):
         """
@@ -65,6 +72,16 @@ class PassengerTaxi(Information):
                     del self.taxi_list.Tlist[iTaxi]
                     del candidates[iTaxi]
                     List_end=len(self.taxi_list.Tlist)
+                elif self.mode == Constants['ME']:
+                    self.push(self.taxi_list.Tlist[iTaxi], candidates[iTaxi][0])
+                    dice = np.random.randint(0,len(candidates[iTaxi]))
+                    cur_passenger = candidates[iTaxi][0]
+                    candidates = [filter(lambda x:x!=cur_passenger,i) for i in candidates]
+                    self.passenger_list.Plist = filter(lambda x:x!=cur_passenger,self.passenger_list.Plist)
+                    del self.taxi_list.Tlist[iTaxi]
+                    del candidates[iTaxi]
+                    List_end=len(self.taxi_list.Tlist)
+
             else:
                 # print "iTaxi:%s"%(iTaxi)
                 # print "len:%s"%(len(self.taxi_list.Tlist))
@@ -89,6 +106,8 @@ class PassengerTaxi(Information):
                     arc_len=self.city_map.arc_length(cur_taxi.position.arc)
                     cur_taxi.position.location = mileage/arc_len
                 iTaxi+=1
+        for i in self.passenger_list.Plist:
+            i.wait_time += dt
         return
 
     def pool_count(self):
