@@ -9,9 +9,14 @@ class TaxiList(object):
         self.Tlist = []
 
     def generate(self,taxi_num,citymap):
-        rd_id = np.random.randint(len(citymap.coordinate), size=taxi_num)
-        rd_id_tuple_list = [(rd_id[i], citymap.random_choose(rd_id[i])) for i in range(taxi_num)]
-        rd_location = np.random.random(taxi_num)#model undecided
-
-        self.Tlist = [Taxi(Position(rd_id_tuple_list[i], rd_location[i]),Constants["velocity"]) for i in range(taxi_num)]
+    	for i in range(taxi_num):
+        		rd_id = np.random.randint(len(citymap.coordinate))
+        		rd_id_tuple = (rd_id[i], citymap.random_choose(rd_id))
+        		rd_location = np.random.random()#model undecided
+        		if citymap.direction(rd_id_tuple):
+        			velocity = Constants["velocity"]
+        		else:
+        			rd_id_tuple = (rd_id_tuple[1],rd_id_tuple[0])
+        			velocity = -Constants["velocity"]
+        		self.Tlist.append(Taxi(Position(rd_id_tuple,rd_location),velocity))
 
