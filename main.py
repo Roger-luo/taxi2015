@@ -62,3 +62,5 @@ while INNER_TIME < WALL_TIME:
     AI.guide(PAPERS)
     ROMA_PEOPLE.next_timestep(AI.data_base)
     INNER_TIME += Constants['dt']
+
+ROMA.plot_now(ROMA_PEOPLE.passenger_list.Plist, ROMA_PEOPLE.taxi_list.Tlist)

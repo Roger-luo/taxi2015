@@ -197,24 +197,24 @@ class CityMap(object):
         return min_distance
 
     def plot_now(self, passenger_list, taxi_list):
-        nodes_x=[node[0] for node in self.coordinate]
-        nodes_y=[node[1] for node in self.coordinate]
-        plt.plot(nodes_x, nodes_y, "r+")
+        nodes_x=[self.coordinate[node][0] for node in self.coordinate]
+        nodes_y=[self.coordinate[node][1] for node in self.coordinate]
+        plt.plot(nodes_x, nodes_y, "ko", markersize=10.0, alpha=0.75)
         for node_i in self.graph.edge:
             for node_j in self.graph.edge[node_i]:
                 node_i_x=self.coordinate[node_i][0]
                 node_i_y=self.coordinate[node_i][1]
                 node_j_x=self.coordinate[node_j][0]
                 node_j_y=self.coordinate[node_j][1]
-                plt.plot([node_i_x, node_j_x],[node_i_y, node_j_y], "black-")
+                plt.plot([node_i_x, node_j_x],[node_i_y, node_j_y], "k-", alpha=0.5, linewidth=3.0)
         passenger_coordinate=\
         [self.position_coordinate(passenger.position) for passenger in passenger_list]
         passengers_x=[passenger[0] for passenger in passenger_coordinate]
         passengers_y=[passenger[1] for passenger in passenger_coordinate]
-        plt.plot(passengers_x, passengers_y, "ro")
+        plt.plot(passengers_x, passengers_y, "yo", markersize=10.0, alpha=0.75)
         taxi_coordinate=\
         [self.position_coordinate(taxi.position) for taxi in taxi_list]
         taxis_x=[taxi[0] for taxi in taxi_coordinate]
         taxis_y=[taxi[1] for taxi in taxi_coordinate]
-        plt.plot(taxis_x, taxis_y, "b*")
+        plt.plot(taxis_x, taxis_y, "go", markersize=10.0, alpha=0.75)
         plt.show()
