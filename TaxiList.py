@@ -11,4 +11,4 @@ class TaxiList(object):
         rd_id_tuple_list = [(rd_id[i], citymap.random_choose(rd_id[i])) for i in range(length)]
         rd_location = np.random.random(length)#model undecided
         self.Tlist = [Taxi(rd_id_tuple_list[i], rd_location[i]) for i in range(taxi_num)]
-        
+
