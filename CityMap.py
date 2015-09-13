@@ -90,6 +90,12 @@ class CityMap(object):
         neighbor_nodes = [node for node in self.graph.to_undirected().edge[node_id]]
         return neighbor_nodes
 
+    def direction(self, arc_tuple):
+        if arc_tuple[1] in self.graph.edge[arc_tuple[0]]:
+            return True
+        else:
+            return False
+
     def random_choose(self, node_id):
         tmp = self.neighbor_nodes(node_id)
         dice = np.random.randint(len(tmp))
