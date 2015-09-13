@@ -48,6 +48,7 @@ ROMA_PEOPLE = PassengerTaxi(ROMA, PLIST, TLIST)
 INNER_TIME = 0
 WALL_TIME = 10
 while INNER_TIME < WALL_TIME:
+    print "runing"
     TAXI_ADD_NUM = ROMA_PEOPLE.pool_count()
     for i in range(TAXI_ADD_NUM):
         rd_id = numpy.random.randint(POINT_NUM)
