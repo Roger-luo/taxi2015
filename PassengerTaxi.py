@@ -37,9 +37,9 @@ class PassengerTaxi(Information):
                 taxi_location = self.taxi_list.Tlist[iTaxi].position.location
                 speed = self.taxi_list.Tlist[iTaxi].velocity
                 run_distance = arc_len*taxi_location+speed*dt
-                if run_distance <= arc_len:
+                if (run_distance <= arc_len)and(run_distance>0):
                     self.taxi_list.Tlist[iTaxi].position.location = run_distance/arc_len
-                else:
+                elif run_distance>arc_len:
                     while (run_distance - \
                            self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc)) > 0:
                         self.taxi_list.Tlist[iTaxi].position.arc = \
@@ -49,6 +49,21 @@ class PassengerTaxi(Information):
                                        (self.taxi_list.Tlist[iTaxi].position.arc)
                     arc_len = self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc)
                     self.taxi_list.Tlist[iTaxi].position.location = run_distance/arc_len
+                elif run_distance<0:
+                    while (run_distance+self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc))<0:
+                    	dirc = int(self.city_map.direction(self.taxi_list.Tlist[iTaxi].position.arc))
+                    	self.taxi_list.Tlist[iTaxi].position.arc = (self.taxi_list.Tlist[iTaxi].position.arc[not dirc],self.navigator(self.taxi_list.Tlist[iTaxi]))
+                    	dirc = int(self.city_map.direction(self.taxi_list.Tlist[iTaxi].position.arc))
+                    	if dirc == False:
+                    		self.taxi_list.Tlist[iTaxi].position.arc = (self.taxi_list.Tlist[iTaxi].position.arc[1],self.taxi_list.Tlist[iTaxi].position.arc[0])
+                    	self.taxi_list.Tlist[iTaxi].velocity = (dirc*2-1)*self.taxi_list.Tlist[iTaxi].velocity
+                    	run_distance = run_distance +self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc)
+                    arc_len = self.city_map.arc_length(self.taxi_list.Tlist[iTaxi].position.arc)
+                    dirc = (self.city_map.direction(self.taxi_list.Tlist[iTaxi].position.arc))
+                    if dirc==True:
+                    	self.taxi_list.Tlist[iTaxi].position.location = -run_distance/arc_len
+                    else:
+                    	self.taxi_list.Tlist[iTaxi].position.location = 1+run_distance/arc_len
 
     def pool_count(self):
         count = 0

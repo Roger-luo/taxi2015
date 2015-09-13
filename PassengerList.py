@@ -1,12 +1,13 @@
 import numpy as np
 from Position import Position
 from Passenger import Passenger
+from Constants import Constants
 
 class PassengerList(object):
     def __init__(self):
         self.Plist = []
 
-    def generate(self, length, citymap):
+    def generate(self, passenger_num, citymap):
         """
         Parameter
 	--------------
@@ -28,10 +29,17 @@ class PassengerList(object):
 	gen:None
 	generate a PassengerList with length(Passenger number) len
 	"""
-        rd_id = np.random.randint(len(citymap.coordinate), size=length)
-        rd_id_tuple_list = [(rd_id[i], citymap.random_choose(rd_id[i])) for i in range(length)]
-        rd_location = np.random.random(length)#model undecided
-        rd_distance = np.random.randn(length)#model undecided
-        rd_tips_list = np.random.randn(length)#model undecided
-        rd_pos = [Position(rd_id_tuple_list[i], rd_location[i]) for i in range(length)]
-        self.Plist = [Passenger(rd_pos[i], rd_distance[i], rd_tips_list[i]) for i in range(length)]
+	for i in range(passenger_num):
+		rd_id = np.random.randint(len(citymap.coordinate))
+		rd_id_tuple = (rd_id,citymap.random_choose(rd_id))
+		rd_location = np.random.random()
+		rd_distance = np.random.randn()
+		rd_tips_list = np.random.randn()
+		if citymap.direction(rd_id_tuple):
+			rd_pos = Position(rd_id_tuple,rd_location)
+			velocity = Constants["velocity"]
+		else:
+			rd_id_tuple = (rd_id_tuple[1],rd_id_tuple[0])
+			rd_pos = Position(rd_id_tuple,rd_location)
+			velocity = -Constants["velocity"]
+		self.Plist.append(Passenger(rd_pos,rd_distance,rd_tips_list))
